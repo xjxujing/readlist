@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.book-item {
+  padding: 6px 0;
+}
+.book-item:hover {
+  text-decoration: line-through;
+}
