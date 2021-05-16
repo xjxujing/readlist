@@ -3,7 +3,7 @@ import { BookContext } from '../context/BookContext'
 
 const BookList = () => {
 
-  const { bookList, removeBook } = useContext(BookContext)
+  const { bookList, dispatch } = useContext(BookContext)
 
   return (
     bookList.length ? (
@@ -12,7 +12,7 @@ const BookList = () => {
           return (
             <li 
               className='book-item'
-              onClick={() => removeBook(book.id)}
+              onClick={() => dispatch({type: 'REMOVE_BOOK', book: {id: book.id}})}
               style={{ cursor: 'pointer' }}
               key={book.id}>
               书名：{book.name}，作者：{book.author}

@@ -1,26 +1,28 @@
-import { createContext, useState } from 'react'
+import { createContext, useReducer, useEffect } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import BookReducer from '../reducer/BookReducer'
 
 
 export const BookContext = createContext()
 
 const BookContextProvider = (props) => {
 
-  const [bookList, setBookList] = useState([
+
+  const [bookList, dispatch] = useReducer(BookReducer, [
     { author: '李娟', name: '走夜路请放声歌唱', id: uuidv4() },
     { author: '三毛', name: '雨季不再来', id: uuidv4() },
-  ])
+  ], () => {
+    const bookListStorage = localStorage.getItem('bookList')
+    return bookListStorage ? JSON.parse(bookListStorage) : []
+  })
 
-  const addBook = (bookForm) => {
-    setBookList([...bookList, {...bookForm, id: uuidv4()}])
-  }
+  useEffect(() => {
+    localStorage.setItem('bookList', JSON.stringify(bookList))
+  })
 
-  const removeBook = (bookId) => {
-    setBookList(bookList.filter(book => book.id !== bookId))
-  }
 
   return (
-    <BookContext.Provider value={{ bookList: bookList, addBook, removeBook }}>
+    <BookContext.Provider value={{ bookList, dispatch }}>
       {props.children}
     </BookContext.Provider>
   )
